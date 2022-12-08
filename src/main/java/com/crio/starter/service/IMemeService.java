@@ -1,8 +1,8 @@
 package com.crio.starter.service;
 
+import com.crio.starter.data.Meme;
 import java.util.List;
 import java.util.Optional;
-import com.crio.starter.data.Meme;
 
 public interface IMemeService {
     Long createMeme(Meme xmeme);

@@ -1,7 +1,6 @@
 package com.crio.starter.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.springframework.data.annotation.Id;
 
 public class MemeId {
 

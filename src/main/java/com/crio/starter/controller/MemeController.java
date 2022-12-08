@@ -1,14 +1,14 @@
 package com.crio.starter.controller;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-import javax.validation.Valid;
 import com.crio.starter.data.Meme;
 import com.crio.starter.data.MemeId;
 import com.crio.starter.repository.MemeRepository;
 import com.crio.starter.repository.SequenceGeneratorService;
 import com.crio.starter.service.MemeService;
+import java.util.List;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -59,10 +59,9 @@ public class MemeController {
         if (!xmemeService.memeExist(meme).isEmpty()) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-
-        if (meme.getName() == null || meme.getUrl() == null || meme.getCaption() == null) {
+        else if (meme.getName() == null || meme.getUrl() == null || meme.getCaption() == null) {
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+        } else {
         meme.setId(counter.incrementAndGet());
 
         //meme.setId(sequenceGeneratorService.generateSequence(Meme.SEQUENCE_NAME));
@@ -74,6 +73,7 @@ public class MemeController {
         memeId.setId(id);
         
         return new ResponseEntity<>(memeId, HttpStatus.CREATED);
+    }
     }
 
     /**
@@ -116,15 +116,17 @@ public class MemeController {
     @PatchMapping("memes/{id}")
     public ResponseEntity<Object> patchMemeById(@PathVariable Long id, @RequestBody Meme xmeme) {
         Optional<Meme> meme = xmemeService.getMemeById(id);
-        if (meme.isEmpty())
+        if (meme.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        if (!xmemeService.memeExist(xmeme).isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
+        else if (!xmemeService.memeExist(xmeme).isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
         meme.get().setUrl(xmeme.getUrl());
         meme.get().setCaption(xmeme.getCaption());
         xmemeService.updateMeme(meme);
         return new ResponseEntity<>(meme, HttpStatus.OK);
+       }
 
     }
 

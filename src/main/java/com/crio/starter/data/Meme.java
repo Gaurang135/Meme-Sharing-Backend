@@ -1,12 +1,9 @@
 package com.crio.starter.data;
 
+import javax.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.Transient;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;

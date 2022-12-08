@@ -1,10 +1,10 @@
 package com.crio.starter.service;
 
-import java.util.List;
-import java.util.Optional;
 import com.crio.starter.data.Meme;
 import com.crio.starter.repository.MemeRepository;
 import com.crio.starter.repository.SequenceGeneratorService;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -22,8 +22,6 @@ public class MemeService implements IMemeService {
     
     @Autowired
     SequenceGeneratorService sequenceGeneratorService;
-
-
 
     public MemeService() {
 
@@ -81,7 +79,7 @@ public class MemeService implements IMemeService {
     public boolean deleteMemeById(Long id) {
 
         Optional<Meme> meme = memeRepository.findById(id);
-        Meme me=meme.get();
+        Meme me = meme.get();
         memeRepository.delete(me);
 
         return true;
