@@ -48,7 +48,7 @@ public class MemeController {
     /**
      * This is POST Request for Xmeme Application
      *
-     * @param xmeme xmeme Object contains Payload for saving memes
+     * @param meme xmeme Object contains Payload for saving memes
      * @return list of All Memes
      */
     
@@ -100,7 +100,7 @@ public class MemeController {
 
      
         Optional<Meme> xmeme = xmemeService.getMemeById(id);
-        if (xmeme.isEmpty())
+        if (xmeme.isPresent())
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<>(xmeme, HttpStatus.OK);
 
@@ -116,7 +116,7 @@ public class MemeController {
     @PatchMapping("memes/{id}")
     public ResponseEntity<Object> patchMemeById(@PathVariable Long id, @RequestBody Meme xmeme) {
         Optional<Meme> meme = xmemeService.getMemeById(id);
-        if (meme.isEmpty()) {
+        if (meme.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         else if (!xmemeService.memeExist(xmeme).isEmpty()) {

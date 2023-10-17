@@ -1,21 +1,28 @@
-FROM gradle:jdk11
+# Use the openjdk image as the base image (choose an appropriate Java version)
+FROM openjdk:11
 
+# Set the DEBIAN_FRONTEND to noninteractive
 ARG DEBIAN_FRONTEND=noninteractive
-RUN apt-get update && apt-get -y upgrade
-RUN apt-get -y install git redis-server wget
 
-RUN apt-get install -y gnupg
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
-RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.2.asc | apt-key add -
-RUN echo "deb https://repo.mongodb.org/apt/ubuntu xenial/mongodb-org/4.2 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.2.list
-RUN apt-get update
-RUN apt-get install -y mongodb-org
+# Install required packages
+RUN apt-get update && apt-get -y install git redis-server wget gnupg
 
-USER root
+# Install MongoDB (choose the appropriate MongoDB version)
+RUN wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | apt-key add - \
+    && echo "deb http://repo.mongodb.org/apt/ubuntu bionic/mongodb-org/4.4 multiverse" | tee /etc/apt/sources.list.d/mongodb-org-4.4.list \
+    && apt-get update && apt-get -y install mongodb-org
 
-RUN mkdir code
+# Create a directory for your code
+RUN mkdir /code
+
+# Set the working directory
+WORKDIR /code
+
+# Copy your application code into the container
 COPY . /code
 
-RUN cd /code && ./gradlew bootjar
+# Build your Gradle project and create the JAR file
+RUN ./gradlew bootJar
 
-CMD /code/start.sh
+# Specify the command to run your application
+CMD ["java", "-jar", "build/libs/your-app.jar"]
